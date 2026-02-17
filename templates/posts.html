@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Posts" %} | MyBlog{% endblock %}
+
+{% block content %}
+<section class="post-list">
+    <h1>{% trans "Blog Posts" %}</h1>
+
+    {% if posts %}
+        {% for post in posts %}
+            <article class="post-card">
+                <h2 class="post-title">
+                    <a href="#">{{ post.name }}</a>
+                </h2>
+
+                <div class="post-excerpt">
+                    {{ post.excerpt|default:post.content|truncatewords:40 }}
+                </div>
+
+                <a class="read-more" href="#">
+                    {% trans "Read more" %} →
+                </a>
+            </article>
+        {% endfor %}
+
+    {% else %}
+        <p>{% trans "No posts found." %}</p>
+    {% endif %}
+</section>
+{% endblock %}

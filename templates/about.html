@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "About" %} | MyBlog{% endblock %}
+
+{% block content %}
+<section class="about-page">
+    <h1>{% trans "About This Blog" %}</h1>
+
+    <p>
+        {% blocktrans %}
+        This blog shares articles about software engineering, backend development,
+        architecture design, and real-world programming experience.
+        {% endblocktrans %}
+    </p>
+
+    <h2>{% trans "Topics" %}</h2>
+    <ul>
+        <li>{% trans "Python & Django" %}</li>
+        <li>{% trans "System Design" %}</li>
+        <li>{% trans "Performance Optimization" %}</li>
+        <li>{% trans "Clean Code & Best Practices" %}</li>
+    </ul>
+
+    <h2>{% trans "Goal" %}</h2>
+    <p>
+        {% blocktrans %}
+        The goal of this website is to explain complex technical topics in a simple
+        and structured way, based on real production experience.
+        {% endblocktrans %}
+    </p>
+</section>
+{% endblock %}

@@ -1,0 +1,65 @@
+{% load static i18n %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="{% get_current_language as CURRENT_LANGUAGE %}{{ CURRENT_LANGUAGE }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% trans "Simple Blog" %}{% endblock %}</title>
+
+    <!-- SEO language alternates -->
+    {% get_available_languages as LANGUAGES %}
+    {% for code, name in LANGUAGES %}
+        <link rel="alternate" hreflang="{{ code }}" href="/{{ code }}{{ request.path }}" />
+    {% endfor %}
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+<header class="site-header">
+    <nav class="navbar">
+        <a href="/" class="logo">MyBlog</a>
+
+        <div class="nav-links">
+            <a href="{% url "home" %}">{% trans "Home" %}</a>
+            <a href="{% url "posts" %}">{% trans "Posts" %}</a>
+            <a href="{% url "about" %}">{% trans "About" %}</a>
+        </div>
+
+        <!-- Language switcher -->
+        <div class="lang-switcher">
+            {% get_current_language as CURRENT_LANGUAGE %}
+            <form action="{% url 'set_language' %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                <select name="language" onchange="this.form.submit()">
+                    {% for code, name in LANGUAGES %}
+                        <option value="{{ code }}" {% if code == CURRENT_LANGUAGE %}selected{% endif %}>
+                            {{ name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </form>
+        </div>
+    </nav>
+</header>
+
+<main class="container">
+    {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                <div class="alert {{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {% block content %}{% endblock %}
+</main>
+
+<footer class="site-footer">
+    <p>© {{ now|date:"Y" }} MyBlog</p>
+</footer>
+</body>
+</html>
+
